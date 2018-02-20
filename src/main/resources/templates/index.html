@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>pos-terminal-stub</title>
+    <link rel="stylesheet" href="/vendor/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <h1>Заглушка для pos-терминала</h1>
+    <br/>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="POST" th:action="@{/createRequest}" th:object="${ModelView}" >
+                <label for="request">Запрос</label>
+                <textarea class="form-control" id="request" rows="20" th:field="*{rq}"></textarea>
+                <br/>
+                <button type="submit" class="btn btn-primary">Отправить запрос</button>
+            </form>
+        </div>
+
+        <div class="col-md-6" th:object="${ModelView}" >
+            <label th:for="response">Ответ</label>
+            <textarea class="form-control" th:id="response" th:field="*{rs}" rows="20"></textarea>
+        </div>
+    </div>
+</div>
+</body>
+</html>

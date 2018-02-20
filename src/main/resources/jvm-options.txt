@@ -1,0 +1,9 @@
+-Djdk.tls.client.protocols=TLSv1.2
+-Dhttps.protocols=TLSv1.2
+-Djavax.net.ssl.trustStore=pos.jks
+-Djavax.net.ssl.trustStorePassword=qwerty
+-Djavax.net.ssl.keyStore=pos.jks
+-Djavax.net.ssl.keyStorePassword=qwerty
+-Djavax.net.debug=all
+-Dssl.debug=true
+-Dweblogic.StdoutDebugEnabled=true
