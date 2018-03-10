@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<versions>
+    <terminalSettings>1.2.0</terminalSettings>
+    <emvKernelSettings>1.0.0</emvKernelSettings>
+    <visaCert>2.0.0</visaCert>
+    <americanExpressCert>3.0.1</americanExpressCert>
+    <masterCardCert>5.0.1</masterCardCert>
+</versions>
