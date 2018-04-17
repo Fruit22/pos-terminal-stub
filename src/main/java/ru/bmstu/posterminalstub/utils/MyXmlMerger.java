@@ -2,6 +2,7 @@ package ru.bmstu.posterminalstub.utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -36,9 +37,7 @@ public class MyXmlMerger {
 
         nodeListFirst.forEach(nodeFromFirstList -> {
             nodeListSecond.forEach(nodeFromSecondList -> {
-                if (nodeFromFirstList.getNodeName().equals(nodeFromSecondList.getNodeName())) {
-                    nodeFromFirstList.setTextContent(nodeFromSecondList.getTextContent());
-                }
+            mergeModules(nodeFromFirstList, nodeFromSecondList);
             });
         });
 
@@ -62,12 +61,30 @@ public class MyXmlMerger {
                     for (int i = 0; i < nodeList.getLength(); i++) {
                         list.add(nodeList.item(i));
                     }
-                    return list.stream()
-                            .filter(Objects::nonNull)
-                            .filter(node -> node.getTextContent() != null)
-                            .filter(node -> node.getNodeName() != null)
-                            .collect(Collectors.toList());
+                    return list;
                 })
                 .orElse(Collections.emptyList());
+    }
+
+    private String getAttribute(Node node, String attribute) {
+        return Optional.ofNullable(node)
+                .map(Node :: getAttributes)
+                .map(attr -> attr.getNamedItem(attribute))
+                .map(Node :: getNodeValue)
+                .orElse(null);
+    }
+
+    private void mergeModules(Node nodeOne, Node nodeTwo) {
+        String nameOne = getAttribute(nodeOne, "name");
+        String nameTwo = getAttribute(nodeTwo, "name");
+        String versionOne = getAttribute(nodeOne, "version");
+        String versionTwo = getAttribute(nodeTwo, "version");
+
+        if (nameOne != null && nameTwo != null && nameOne.equals(nameTwo)) {
+            if (VersionHelper.compare(versionOne, versionTwo) == -1 && nodeTwo.getTextContent() != null) {
+                nodeOne.setTextContent(nodeTwo.getTextContent());
+                nodeOne.getAttributes().getNamedItem("version").setNodeValue(versionTwo);
+            }
+        }
     }
 }

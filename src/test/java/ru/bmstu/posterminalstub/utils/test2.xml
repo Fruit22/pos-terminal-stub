@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<test>
-    <testOne>тест3</testOne>
-    <testTwo>тест4</testTwo>
-</test>
+<root>
+    <module name="terminal-settings" version="2.3.5">terminal_settings_2.3.5</module>
+    <module name="emv-kernel-settings" version="1.4.4">emv_kernel_settings_1.4.4</module>
+    <module name="visa-certificate" version="5.0.0">111111111</module>
+    <module name="master-card-certificate" version="4.0.3">222222222</module>
+</root>

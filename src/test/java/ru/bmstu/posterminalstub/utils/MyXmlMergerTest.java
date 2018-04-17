@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
 public class MyXmlMergerTest {
 
     @Test
