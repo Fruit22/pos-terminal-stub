@@ -4,4 +4,5 @@
     <module name="emv-kernel-settings" version="1.4.4">emv_kernel_settings_1.4.4</module>
     <module name="visa-certificate" version="5.0.0">111111111</module>
     <module name="master-card-certificate" version="4.0.3">222222222</module>
+    <module name="mir-card-certificate" version="4.0.99">123123123</module>
 </root>

@@ -2,7 +2,6 @@ package ru.bmstu.posterminalstub.utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -17,11 +16,14 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MyXmlMerger {
-    public String merge(String xml1, String xml2) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public static String merge(String xml1, String xml2) throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = f.newDocumentBuilder();
@@ -37,14 +39,30 @@ public class MyXmlMerger {
 
         nodeListFirst.forEach(nodeFromFirstList -> {
             nodeListSecond.forEach(nodeFromSecondList -> {
-            mergeModules(nodeFromFirstList, nodeFromSecondList);
+                mergeModules(nodeFromFirstList, nodeFromSecondList);
             });
         });
+
+        List<String> currentModules = nodeListFirst.stream()
+                .map(e -> getAttribute(e, "name"))
+                .collect(Collectors.toList());
+
+        nodeListSecond.forEach(e -> {
+            String nameTwo = getAttribute(e, "name");
+            if (!currentModules.contains(nameTwo)) {
+                Element node = doc.createElement("module");
+                node.setAttribute("name", e.getAttributes().getNamedItem("name").getTextContent());
+                node.setAttribute("version", e.getAttributes().getNamedItem("version").getTextContent());
+                node.setTextContent(e.getTextContent());
+                doc.getDocumentElement().appendChild(node);
+            }
+        });
+
 
         return convertDocumentToXmlString(doc);
     }
 
-    private String convertDocumentToXmlString(Document document) throws TransformerException {
+    private static String convertDocumentToXmlString(Document document) throws TransformerException {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();
         StringWriter sw = new StringWriter();
@@ -52,7 +70,7 @@ public class MyXmlMerger {
         return sw.toString();
     }
 
-    private List<Node> createClassicListFromDoc(Document document) {
+    private static List<Node> createClassicListFromDoc(Document document) {
         return Optional.ofNullable(document)
                 .map(Document::getDocumentElement)
                 .map(Element::getChildNodes)
@@ -66,15 +84,15 @@ public class MyXmlMerger {
                 .orElse(Collections.emptyList());
     }
 
-    private String getAttribute(Node node, String attribute) {
+    private static String getAttribute(Node node, String attribute) {
         return Optional.ofNullable(node)
-                .map(Node :: getAttributes)
+                .map(Node::getAttributes)
                 .map(attr -> attr.getNamedItem(attribute))
-                .map(Node :: getNodeValue)
+                .map(Node::getNodeValue)
                 .orElse(null);
     }
 
-    private void mergeModules(Node nodeOne, Node nodeTwo) {
+    private static void mergeModules(Node nodeOne, Node nodeTwo) {
         String nameOne = getAttribute(nodeOne, "name");
         String nameTwo = getAttribute(nodeTwo, "name");
         String versionOne = getAttribute(nodeOne, "version");

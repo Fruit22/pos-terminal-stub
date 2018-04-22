@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <module name="terminal-settings" version="2.3.3">terminal_settings_2.3.3</module>
+    <module name="emv-kernel-settings" version="1.4.4">emv_kernel_settings_1.4.4</module>
+    <module name="visa-certificate" version="5.0.1">123123123</module>
+    <module name="master-card-certificate" version="4.0.1">234234234</module>
+</root>

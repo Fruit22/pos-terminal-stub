@@ -23,10 +23,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 
 
 @Controller
@@ -57,6 +54,7 @@ public class RequestController {
         HttpEntity<String> request = new HttpEntity<>(modelView.getRq(), headers);
         ResponseEntity<String> response = restTemplate.postForEntity(URL_UPDATER, request, String.class);
         modelView.setRs(formatXml(response.getBody()));
+        saveToFile(response.getBody());
         redirectAttributes.addFlashAttribute("ModelView", modelView);
         return "redirect:/";
     }
@@ -75,5 +73,11 @@ public class RequestController {
         Writer out = new StringWriter();
         tf.transform(new DOMSource(xml), new StreamResult(out));
         return out.toString();
+    }
+
+    private void saveToFile(String xml) throws IOException {
+        FileWriter fw = new FileWriter("my-file.xml");
+        fw.write(xml);
+        fw.close();
     }
 }

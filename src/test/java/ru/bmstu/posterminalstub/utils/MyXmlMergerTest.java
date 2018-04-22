@@ -32,7 +32,8 @@ public class MyXmlMergerTest {
         Assert.assertNotNull(sb);
         Assert.assertNotNull(sb2);
 
-        String result = new MyXmlMerger().merge(sb.toString(), sb2.toString());
+        String result = MyXmlMerger.merge(sb.toString(), sb2.toString());
+        System.out.println(result);
         Assert.assertNotNull(result);
     }
 }
